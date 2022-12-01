@@ -19,12 +19,15 @@
   },
   "homepage": "https://github.com/Datesters/date-night-back-end#readme",
   "dependencies": {
+    "@auth0/auth0-react": "^1.12.0",
     "axios": "^1.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^3.0.0",
-    "mongoose": "^6.7.5"
+    "mongoose": "^6.7.5",
+    "npm": "^9.1.3"
   }
 }
