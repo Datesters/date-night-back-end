@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const Location = require('./model/Location');
-const Calculator = require('./model/Calculator');
+const Location = require('./modules/Location');
+const Calculator = require('./modules/Calculator');
 const verifyUser = require('./auth');
 const { response } = require('express');
 
@@ -22,7 +22,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
 
-app.get('/Calculator', getCalculator);
+app.get('/Calculator', Calculator);
 app.get('/Location', getLocation);
 
 app.post('/Location', postReview);
