@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Location = require('./model/Location');
-const Calculator = require(./model/Calculator);
+const Calculator = require('./model/Calculator');
 const verifyUser = require('./auth');
 const { response } = require('express');
 
@@ -22,9 +22,13 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
 
-app.get('/test', (req, res) => {
-  response.send('test request received');
-});
+app.get('/Calculator', getCalculator);
+app.get('/Location', getLocation);
+
+app.post('/Location', postReview);
+app.delete('/Location/:id', deleteReview);
+app.put('/Location/:id', putReview);
+
 
 async function getLocation(req, res, next) {
 
@@ -43,6 +47,44 @@ async function getLocation(req, res, next) {
       }
     }
   });
+}
+
+async function getCalculator(req, res, next) {
+  try {
+    let result = await Calculator.find();
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function postReview(req, res, next) {
+  try {
+    let newReview = await Location.create(req.body);
+    res.send(newReview);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function deleteReview(req, res, next) {
+  try {
+    await Location.findByIdAndDelete(req.params.id);
+    res.status(200).send('Deleted');
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function putReview(req, res, next) {
+  try {
+    let id = req.params.id;
+    let updatedReview = req.body;
+    let addReview = await Location.findByIdAndUpdate(id, updatedReview, { new: true, overwrites: true});
+    res.status(200).send(addReview);
+  } catch (error) {
+    next(error);
+  }
 }
 
 
