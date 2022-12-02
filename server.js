@@ -1,13 +1,14 @@
+'use strict';
+
 require('dotenv').config();
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-// const Location = require('./modules/Location');
-const Calculator = require('./modules/Calculator');
+const getYelp = require('./modules/yelp.js');
+const getLove = require('./modules/compatibility.js');
 const verifyUser = require('./auth');
-const { response } = require('express');
-const getCity = require('./modules/Location');
 
 
 const db = mongoose.connection;
@@ -26,17 +27,16 @@ app.use(express.json());
 const PORT = process.env.PORT || 3001;
 
 
-app.get('/Calculator', getCalculator);
-// app.get('/Location', getLocation);
-app.get('/Location', getCity);
+app.get('/calculator', getCalculator);
 
-
+app.get('/location', getYelp);
+app.get('/location', getCity);
 app.post('/location', postReview);
 app.delete('/location/:id', deleteReview);
 app.put('/location/:id', putReview);
 
 
-async function getLocation(req, res, next) {
+async function getCity(req, res, next) {
 
   verifyUser(req, async (err, user) => {
     console.log(user);
@@ -46,7 +46,8 @@ async function getLocation(req, res, next) {
     } else {
 
       try {
-        let result = await Location.find();
+        const { location } = req.query;
+        let result = getYelp(location);
         res.status(200).send(result);
       } catch (error) {
         next(error);
