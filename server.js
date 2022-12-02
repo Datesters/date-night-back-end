@@ -3,9 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Location = require('./modules/Location');
-const Calculator = require('./modules/Calculator');
+const getLove = require('./modules/Calculator');
 const verifyUser = require('./auth');
-const { response } = require('express');
+const app = express();
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -15,19 +15,19 @@ db.once('open', function () {
 
 mongoose.connect(process.env.DB_URL);
 
-const app = express();
+
 app.use(cors());
 app.use(express.json());
 
 
 const PORT = process.env.PORT || 3001;
 
-app.get('/Calculator', Calculator);
-app.get('/Location', getLocation);
+app.get('/calculator', getCalculator);
+app.get('/location', getLocation);
 
-app.post('/Location', postReview);
-app.delete('/Location/:id', deleteReview);
-app.put('/Location/:id', putReview);
+app.post('/location', postReview);
+app.delete('/location/:id', deleteReview);
+app.put('/location/:id', putReview);
 
 
 async function getLocation(req, res, next) {
@@ -49,13 +49,14 @@ async function getLocation(req, res, next) {
   });
 }
 
-async function getCalculator(req, res, next) {
-  try {
-    let result = await Calculator.find();
-    res.status(200).send(result);
-  } catch (error) {
-    next(error);
-  }
+async function getCalculator(req, res) {
+  const { fname, sname } = req.query;
+  getLove(fname, sname)
+    .then(sum => res.send(sum))
+    .catch((error) => {
+      console.error(error);
+      res.status(200).send('Sorry. Something went wrong!');
+    });
 }
 
 async function postReview(req, res, next) {
