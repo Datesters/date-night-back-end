@@ -10,6 +10,7 @@ const profileSchema = new Schema({
   partnerNameTwo: {type: String, required: true},
   location: {type: String, required: true},
   favoriteRestaurant: {type: Array, required: true},
+
 });
 
 const profileModel = mongoose.model('profile', profileSchema);

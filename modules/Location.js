@@ -1,3 +1,4 @@
+
 'use strict';
 
 const axios = require('axios');
@@ -44,4 +45,5 @@ class Restaurant {
 
 
 module.exports = getCity;
+
 
