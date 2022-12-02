@@ -1,14 +1,12 @@
 'use strict';
 
-let cache = require('./cache');
+let cache = require('./loveCache');
 const axios = require('axios').default;
 
 
 async function getLove(fname, sname) {
   // need the params from front end
   const key = 'compatibility-' + fname + sname;
-  console.log(fname);
-  console.log(sname);
   const options = {
     method: 'GET',
     url: process.env.LOVE_URL,
