@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 
 const getYelp = require('./modules/yelp.js');
 const getLove = require('./modules/compatibility.js');
-const verifyUser = require('./auth');
+// const verifyUser = require('./auth');
 
 
 const db = mongoose.connection;
@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 3001;
 
 app.get('/calculator', getCalculator);
 
-app.get('/location', getYelp);
+// app.get('/location', getYelp);
 app.get('/location', getCity);
 app.post('/location', postReview);
 app.delete('/location/:id', deleteReview);
@@ -38,22 +38,23 @@ app.put('/location/:id', putReview);
 
 async function getCity(req, res, next) {
 
-  verifyUser(req, async (err, user) => {
-    console.log(user);
-    if (err) {
-      //console.log(err);
-      res.send('invalid token');
-    } else {
-
+  // verifyUser(req, async (err, user) => {
+  //   console.log(user);
+  //   if (err) {
+  //     //console.log(err);
+  //     res.send('invalid token');
+  //   } else {
+      console.log('token valid');
       try {
         const { location } = req.query;
-        let result = getYelp(location);
+        let result = await getYelp(location);
+        console.log('results returned');
         res.status(200).send(result);
       } catch (error) {
         next(error);
       }
-    }
-  });
+    // }
+  // });
 }
 
 async function getCalculator(req, res) {
