@@ -2,10 +2,13 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const Location = require('./modules/Location');
-const getLove = require('./modules/Calculator');
+
+// const Location = require('./modules/Location');
+const Calculator = require('./modules/Calculator');
 const verifyUser = require('./auth');
-const app = express();
+const { response } = require('express');
+const getCity = require('./modules/Location');
+
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -22,8 +25,11 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
 
-app.get('/calculator', getCalculator);
-app.get('/location', getLocation);
+
+app.get('/Calculator', getCalculator);
+// app.get('/Location', getLocation);
+app.get('/Location', getCity);
+
 
 app.post('/location', postReview);
 app.delete('/location/:id', deleteReview);
