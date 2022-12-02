@@ -28,9 +28,8 @@ const PORT = process.env.PORT || 3001;
 
 
 app.get('/calculator', getCalculator);
-
-// app.get('/location', getYelp);
 app.get('/location', getCity);
+
 app.post('/location', postReview);
 app.delete('/location/:id', deleteReview);
 app.put('/location/:id', putReview);
@@ -44,6 +43,7 @@ async function getCity(req, res, next) {
   //     //console.log(err);
   //     res.send('invalid token');
   //   } else {
+
   try {
     const { location } = req.query;
     let result = await getYelp(location);
@@ -51,6 +51,7 @@ async function getCity(req, res, next) {
   } catch (error) {
     next(error);
   }
+
   // }
   // });
 }

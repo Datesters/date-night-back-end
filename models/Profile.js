@@ -9,7 +9,8 @@ const profileSchema = new Schema({
   partnerNameOne: {type: String, required: true},
   partnerNameTwo: {type: String, required: true},
   location: {type: String, required: true},
-  favoriteRestaurant: {type: Array, required: true},
+  compPercent: {type: String, required: true},
+  favoriteRestaurant: {type: Array},
 });
 
 const profileModel = mongoose.model('profile', profileSchema);
