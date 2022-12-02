@@ -44,16 +44,14 @@ async function getCity(req, res, next) {
   //     //console.log(err);
   //     res.send('invalid token');
   //   } else {
-      console.log('token valid');
-      try {
-        const { location } = req.query;
-        let result = await getYelp(location);
-        console.log('results returned');
-        res.status(200).send(result);
-      } catch (error) {
-        next(error);
-      }
-    // }
+  try {
+    const { location } = req.query;
+    let result = await getYelp(location);
+    res.status(200).send(result);
+  } catch (error) {
+    next(error);
+  }
+  // }
   // });
 }
 
@@ -89,7 +87,7 @@ async function putReview(req, res, next) {
   try {
     let id = req.params.id;
     let updatedReview = req.body;
-    let addReview = await Location.findByIdAndUpdate(id, updatedReview, { new: true, overwrites: true});
+    let addReview = await Location.findByIdAndUpdate(id, updatedReview, { new: true, overwrites: true });
     res.status(200).send(addReview);
   } catch (error) {
     next(error);
