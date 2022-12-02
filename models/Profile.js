@@ -6,8 +6,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const profileSchema = new Schema({
-  partnerNameOne: {type: String, required: true},
-  partnerNameTwo: {type: String, required: true},
+  email: {type: String, required: true},
+  fname: {type: String, required: true},
+  sname: {type: String, required: true},
   location: {type: String, required: true},
   compPercent: {type: String, required: true},
   favoriteRestaurant: {type: Array},
