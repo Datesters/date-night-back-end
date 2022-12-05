@@ -32,8 +32,6 @@ async function getLove(fname, sname) {
 
 class Compatibility {
   constructor(result) {
-    console.log('ling 35');
-    console.log('result: ', result);
     this.nameOne = result.fname;
     this.nameTwo = result.sname;
     this.percentage = result.percentage;

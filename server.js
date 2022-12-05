@@ -52,7 +52,8 @@ async function deleteLoc(req, res) {
           { $pull: { favoriteRestaurant: {id: id}}},
           { safe: true, multi:true }
         );
-        res.send('Loc deleted');
+        let updatedUser = await User.find({ email: user.email });
+        res.send(updatedUser);
       } catch (err) {
         console.error(err);
         res.status(500).send('server error');
@@ -73,11 +74,12 @@ async function putLoc(req, res) {
         const userFromDb = await User.find({ email: user.email });
         let isInArr = userFromDb[0].favoriteRestaurant.some(item => item.id === favoriteRestaurant.id);
         if (userFromDb.length > 0 && !isInArr) {
-          let updatedUser = await User.findByIdAndUpdate(
+          await User.findByIdAndUpdate(
             { _id: userFromDb[0]._id },
             { $push: { favoriteRestaurant: favoriteRestaurant } },
             { new: true, overwrite: true }
           );
+          let updatedUser = await User.find({ email: user.email });
           res.status(200).send(updatedUser);
 
         } else {
@@ -163,7 +165,9 @@ async function updateUser(req, res, user, id) {
     // let tempID = '638a7867f8a0bcfc2946c772';
     const { fname, sname, location } = req.query;
     let compPercent = await getLove(fname, sname);
-    const updatedUser = await User.findByIdAndUpdate(id[0]._id, { email: user.email, fname: fname, sname: sname, location: location, compPercent: compPercent.percentage }, { new: true, overwrite: false });
+    await User.findByIdAndUpdate(id[0]._id, { email: user.email, fname: fname, sname: sname, location: location, compPercent: compPercent.percentage }, { new: true, overwrite: false });
+    const updatedUser = await User.find({ email: user.email });
+    console.log(updatedUser);
     res.status(200).send(updatedUser);
   } catch (err) {
     console.error(err);
@@ -172,7 +176,7 @@ async function updateUser(req, res, user, id) {
 }
 
 async function getLoc(req, res, next) {
-  verifyUser(req, async (err, user) => {
+  verifyUser(req, async (err) => {
     if (err) {
       console.log(err);
       res.send('invalid token');
