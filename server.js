@@ -51,10 +51,10 @@ async function putLoc(req, res) {
 
         if (userFromDb.length > 0) {
           console.log('something changed');
-          console.log(userFromDb[0]);
+          // console.log(userFromDb[0]);
           let updatedUser = await User.findByIdAndUpdate(
             { _id: userFromDb[0]._id },
-            { $push: { favoriteRestaurant: favoriteRestaurant[0] } },
+            { $push: { favoriteRestaurant: favoriteRestaurant } },
             { new: true, overwrite: true }
           );
           res.status(200).send(updatedUser);
@@ -145,18 +145,6 @@ async function updateUser(req, res, user, id) {
     const { fname, sname, location } = req.query;
     let compPercent = await getLove(fname, sname);
     const updatedUser = await User.findByIdAndUpdate(id[0]._id, { email: user.email, fname: fname, sname: sname, location: location, compPercent: compPercent.percentage }, { new: true, overwrite: true });
-    res.status(200).send(updatedUser);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('server error');
-  }
-}
-
-async function updateUserLocArr(req, res, user, id) {
-  try {
-    // let tempID = '638a7867f8a0bcfc2946c772';
-    const { favoriteRestaurant } = req.query;
-    const updatedUser = await User.findByIdAndUpdate(id[0]._id, { favoriteRestaurant: favoriteRestaurant }, { new: true, overwrite: true });
     res.status(200).send(updatedUser);
   } catch (err) {
     console.error(err);
