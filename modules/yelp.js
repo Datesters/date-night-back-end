@@ -47,6 +47,7 @@ function parseLoc(locData) {
 
 class Restaurant {
   constructor(restaurant) {
+    this.id = restaurant.id;
     this.image = restaurant.image_url;
     this.name = restaurant.name;
     this.rating = restaurant.rating;
