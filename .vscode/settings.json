@@ -1,3 +1,7 @@
 {
-  "workbench.colorTheme": "Abyss"
+  "workbench.colorTheme": "Abyss",
+  "workbench.preferredDarkColorTheme": "Tomorrow Night Blue",
+  "cSpell.words": [
+    "sname"
+  ]
 }
