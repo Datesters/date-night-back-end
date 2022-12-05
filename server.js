@@ -39,7 +39,6 @@ app.put('/user', putUser);
 // app.delete('/location/:id', deleteReview);
 // app.put('/location/:id', putReview);
 async function deleteLoc(req, res) {
-  console.log('delete loc', req.query);
   verifyUser(req, async (err, user) => {
     if (err) {
       res.send('invalid token');
@@ -47,7 +46,6 @@ async function deleteLoc(req, res) {
 
       const { id } = req.query;
       try {
-        console.log('verified now try');
         let userFromDb = await User.find({ email: user.email });
         await User.findByIdAndUpdate(
           { _id: userFromDb[0]._id },
@@ -55,7 +53,6 @@ async function deleteLoc(req, res) {
           { safe: true, multi:true }
         );
         res.send('Loc deleted');
-        console.log(userFromDb);
       } catch (err) {
         console.error(err);
         res.status(500).send('server error');
@@ -74,9 +71,8 @@ async function putLoc(req, res) {
       try {
         console.log('found user');
         const userFromDb = await User.find({ email: user.email });
-
-        if (userFromDb.length > 0) {
-          console.log('something changed');
+        let isInArr = userFromDb[0].favoriteRestaurant.some(item => item.id === favoriteRestaurant.id);
+        if (userFromDb.length > 0 && !isInArr) {
           let updatedUser = await User.findByIdAndUpdate(
             { _id: userFromDb[0]._id },
             { $push: { favoriteRestaurant: favoriteRestaurant } },
@@ -105,7 +101,6 @@ async function getUser(req, res) {
     } else {
 
       try {
-        console.log('run getUser');
         let findUser = await User.find({ email: user.email });
         if (findUser.length) {
           const userFromDb = await User.find({ email: user.email });
