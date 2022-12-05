@@ -24,7 +24,7 @@ async function getLove(fname, sname) {
     console.log('Cache miss');
     cache[key] = {};
     cache[key].timestamp = Date.now();
-    cache[key].data = axios.request(options).then(response => new Compatibility(response.data));
+    cache[key].data = axios(options).then(response => new Compatibility(response.data));
   }
   return cache[key].data;
 }
@@ -32,6 +32,8 @@ async function getLove(fname, sname) {
 
 class Compatibility {
   constructor(result) {
+    console.log('ling 35');
+    console.log('result: ', result);
     this.nameOne = result.fname;
     this.nameTwo = result.sname;
     this.percentage = result.percentage;

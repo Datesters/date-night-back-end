@@ -20,7 +20,7 @@
   "homepage": "https://github.com/Datesters/date-night-back-end#readme",
   "dependencies": {
     "@auth0/auth0-react": "^1.12.0",
-    "axios": "^1.1.3",
+    "axios": "^1.2.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

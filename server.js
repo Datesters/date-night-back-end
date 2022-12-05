@@ -81,13 +81,17 @@ async function getUser(req, res) {
     } else {
 
       try {
+        console.log('run getUser');
         let findUser = await User.find({ email: user.email });
+        console.log(findUser);
         if (findUser.length) {
           const userFromDb = await User.find({ email: user.email });
           res.status(200).send(userFromDb);
         } else {
           console.log('no user');
-          let createdUser = crateUser({ fname: 'Jack', sname: 'Jill', location: 'paris' }, res, user);
+          console.log(user);
+          let createdUser = await crateUser({ fname: 'Jack', sname: 'Jill', location: 'paris' }, res, user);
+          console.log('created user: ', createdUser);
           res.send(createdUser);
         }
       } catch (err) {
@@ -106,8 +110,9 @@ async function putUser(req, res) {
 
       const { fname, sname, location } = req.query;
       try {
-        console.log('found user');
         const userFromDb = await User.find({ email: user.email });
+        console.log(`putUser: ${userFromDb}`);
+        console.log(userFromDb);
         if (userFromDb[0].fname === fname && userFromDb[0].sname === sname && userFromDb[0].location === location) {
           console.log('Nothing changed');
           res.status(200).send(userFromDb);
@@ -129,8 +134,12 @@ async function putUser(req, res) {
 
 async function crateUser(req, res, user) {
   const { fname, sname, location } = req;
+  console.log(fname);
+  console.log(sname);
   try {
+    console.log(user);
     let compPercent = await getLove(fname, sname);
+    console.log(compPercent);
     let createdUser = await User.create({ email: user.email, fname: fname, sname: sname, location: location, compPercent: compPercent.percentage });
     return createdUser;
   } catch (err) {
