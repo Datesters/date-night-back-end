@@ -11,7 +11,7 @@ const profileSchema = new Schema({
   sname: {type: String, required: true},
   location: {type: String, required: true},
   compPercent: {type: String, required: true},
-  favoriteRestaurant: {type: Array},
+  favoriteRestaurant: {type: Array, required: true},
 });
 
 const profileModel = mongoose.model('profile', profileSchema);
